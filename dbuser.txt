@@ -1,0 +1,7 @@
+studentcontrol
+eaegalerinha2530
+
+porta p conexão: 49727
+
+testedb2
+teste123@321

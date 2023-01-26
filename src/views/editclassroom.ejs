@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/bosch-282178.png" type="image/x-icon">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Update Classroom</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="/" style="text-decoration: none; color: #111; display: flex; gap: 35px">
+                <img src="https://logosmarcas.net/wp-content/uploads/2020/08/Bosch-Logo.png" alt="">
+                <p>Student Control</p>
+            </a>
+        </div>
+        <nav>
+            <span>Register</span>
+            <div>
+                <a href="#" class="btn btn-aln" onclick="openStdModal()">Student</a>
+                <a href="#" class="btn btn-sala" onclick="openClassModal()">Classroom</a>
+            </div>
+        </nav>
+    </header>
+    <div class="class-register-modal" id="class-modal">
+        <p class="nc">Edit Classroom</p>
+        <form action="/editClassroom/<%= room.IDClassroom %>" method="post" class="form" >
+            <div class="role">
+                <p>Name</p>
+                <input type="text" name="cname" id="cname" value="<%= room.Name %>">
+            </div>
+            <div class="role">
+                <p>Capacity</p>
+                <input type="number" name="capacity" id="capacity" value="<%= room.Capacity %>">
+            </div>
+            <button type="submit" class="submit-bt">Continue</button>
+        </form>
+        <form action="/deleteClassroom/<%= room.IDClassroom %>" method="post">
+            <button class="del-btn" type="submit">Delete classroom</button>
+        </form>
+    </div>
+    <style>
+        /* MODAL */
+        .class-register-modal {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: fixed;
+            background-color: #fff;
+            width: 400px;
+            height: 480px;
+            border-radius: 8px;
+            z-index: 3;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            transition: all .5s;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        .class-register-modal p {
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .nc {
+            text-align: center;
+        }
+
+        .form {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            margin-top: 40px;
+            font-size: 20px;
+            width: 90%;
+            height: 100%;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .role {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .role p {
+            font-size: 24px;
+            letter-spacing: 0px;
+        }
+
+        .role input {
+            padding: 12px;
+            font-size: 1.25rem;
+            border: 0;
+            border-radius: 8px;
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+            transition: .3s;
+        }
+
+        .role input:hover {
+            transform: scale(1.05);
+        }
+
+        .role input:focus {
+            transform: scale(1.05);
+            outline: 0;
+        }
+
+        .submit-bt {
+            margin-top: 20px;
+            border: 0;
+            border-radius: 8px;
+            background-color: #8C1C13;
+            color: #fff;
+            cursor: pointer;
+            transition: .2s;
+            outline: none;
+            padding: 12px;
+            width: 60%;
+            font-size: 1.25rem;
+        }
+
+        .submit-bt:hover {
+            filter: brightness(1.3);
+        }
+
+    </style>
+</body>
+
+</html>

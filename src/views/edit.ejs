@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/bosch-282178.png" type="image/x-icon">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Update Student</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/" style="text-decoration: none; color: #111; display: flex; gap: 35px">
+                <img src="https://logosmarcas.net/wp-content/uploads/2020/08/Bosch-Logo.png" alt="">
+                <p>Student Control</p>
+            </a>
+        </div>
+        <nav>
+            <span>Register</span>
+            <div>
+                <a
+                    href="#"
+                    class="btn btn-aln"
+                    onclick="openStdModal()"
+                >Student</a>
+                <a 
+                    href="#"
+                    class="btn btn-sala"
+                    onclick="openClassModal()"
+                >Classroom</a>
+            </div>
+        </nav>
+    </header>
+    <div class="class-register-modal std" id="edit-modal" style="height: 700px;">
+        <p class="nc">Update Student</p>
+        <form action="/editStudent/<%= students.IDStudent %>" class="form" method="post" enctype="multipart/form-data">
+            <div class="image">
+                <img src="/img/<%= students.Picture %>" id="img" alt="">
+                <input type="file" id="flImage" name="attfoto" accept="image/*">
+            </div>
+            <div class="role">
+                <p>Name</p>
+                <input type="text" name="attname" id="attname" value="<%= students.Name %>">
+            </div>
+            <div class="role">
+                <p>Born</p>
+                <input type="date" name="attage" id="attage" value="<%= students.Age %>">
+            </div>
+            <div class="role">
+                <p>Sex</p>
+                <input type="text" name="attsex" id="attsex" value="<%= students.Sex %>">
+            </div>
+            <div class="role">
+                <p>Classroom</p>
+                <select name="attclassroom" id="attclassroom">
+                    <% for (let i = 0; i < rooms.length; i++) { %>
+                        <option
+                            value='<%= rooms[i].IDClassroom %>'
+                            <%= students.IDClassroom == rooms[i].IDClassroom ? 'selected' : '' %>
+                        >
+                            <%= rooms[i].Name %>
+                        </option>
+                    <% } %>
+                </select>
+            </div>
+            <input type="submit" value="Update" class="submit-btn">
+        </form>
+        <form action="/deleteStudent/<%= students.IDStudent %>" method="post">
+            <button class="del-btn" type="submit">Delete student</button>
+        </form>
+    </div>
+    <script src="/editphoto.js"></script>
+</body>
+</html>

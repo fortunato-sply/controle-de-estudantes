@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/bosch-282178.png" type="image/x-icon">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>BOSCH Student Control</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/" style="text-decoration: none; color: #111; display: flex; gap: 35px">
+                <img src="https://logosmarcas.net/wp-content/uploads/2020/08/Bosch-Logo.png" alt="">
+                <p>Student Control</p>
+            </a>
+        </div>
+        <nav>
+            <span>Register</span>
+            <div>
+                <a href="#" class="btn btn-aln" onclick="openStdModal()">Student</a>
+                <a href="#" class="btn btn-sala" onclick="openClassModal()">Classroom</a>
+            </div>
+        </nav>
+    </header>
+    <main id='main' class="">
+        <div class="radio-box">
+            <div class="room-info">
+                <p>
+                    <%= room.Name %>
+                </p>
+                <span></span>
+                <p>
+                    <%= count %>/<%= room.Capacity %>
+                </p>
+            </div>
+            <div class="select-menu">
+                <form class="radio" method="post" action="/">
+                    Classroom:
+                    <select name="IDClassroom" id="" onchange="this.form.submit()">
+                        <option value='' selected>Select a classroom</option>
+                        <% for (let i=0; i < rooms.length; i++) { %>
+                            <option value='<%= rooms[i].IDClassroom %>' 
+                                <%=idclassroom==rooms[i].IDClassroom ? 'selected' : '' %>
+                                >
+                                <%= rooms[i].Name %>
+                            </option>
+                            <% } %>
+                    </select>
+                    <span class="focus"></span>
+                </form>
+                <form action="/editClassroom/<%= idclassroom %>" method="get">
+                    <button type="submit" class="edit-btn">Edit Classroom</button>
+                </form>
+            </div>
+        </div>
+        <div class="cards-container">
+            <div class="cards-box">
+                <% for(let i=0; i < students.length; i++) { %>
+                    <div class="card">
+                        <div class="student-image">
+                            <img src="img/<%= students[i].Picture %>" alt="">
+                        </div>
+                        <div class="student-description">
+                            <h1>
+                                <%= students[i].Name %>
+                            </h1>
+                            <span>
+                                <%= students[i].Age %> years
+                            </span>
+                            <form action="/editStudent/<%= students[i].IDStudent %>" method="get" id="edit">
+                                <button type="submit" class="form-btn" onclick="openEditModal()">Edit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </main>
+    <div class="class-register-modal hidden" id="class-modal">
+        <p class="nc">New Classroom</p>
+        <form action="/insertClassroom/" class="form" method="post">
+            <div class="role">
+                <p>Name</p>
+                <input type="text" name="cname" id="cname">
+            </div>
+            <div class="role">
+                <p>Capacity</p>
+                <input type="text" name="capacity" id="capacity">
+            </div>
+            <div class="role">
+                <p>Min. Age</p>
+                <input type="number" name="minage" id="minage">
+                <p>Max. Age</p>
+                <input type="number" name="maxage" id="maxage">
+            </div>
+            <input type="submit" value="Register" class="submit-btn" style="margin-top: 0px">
+        </form>
+    </div>
+    <div class="class-register-modal hidden std" id="std-modal">
+        <p class="nc">New Student</p>
+        <form action="/insertStudent/" class="form" method="post" enctype="multipart/form-data">
+            <div class="image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" id="img" alt="">
+                <input type="file" id="flImage" name="foto" accept="image/*">
+            </div>
+            <div class="role">
+                <p>Name</p>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="role">
+                <p>Born</p>
+                <input type="date" name="age" id="age" required>
+            </div>
+            <div class="role">
+                <p>Sex</p>
+                <input type="text" name="sex" id="sex" required>
+            </div>
+            <div class="role">
+                <p>Classroom</p><% var cont = 5 %>
+                <select name="classroom" id="classroom" required>
+                    <option value="0" selected disabled>Select a classroom</option>
+                    <% for (let i = 0; i < rooms.length; i++) { %>
+                        <option value='<%= rooms[i].IDClassroom %>' 
+                        <%= isAble[i] %>>
+                            <%= rooms[i].Name %>
+                        </option>
+                        <% } %>
+                </select>
+            </div>
+            <input type="submit" value="Register" class="submit-btn" id="submitbtn">
+        </form>
+    </div>
+
+    <div class="class-register-modal hidden std" id="edit-modal">
+        <p class="nc">Update Student</p>
+        <form action="/editStudent/<%= students.IDStudent %>" class="form" method="post" enctype="multipart/form-data">
+            <div class="image">
+                <img src="/img/<%= students.Picture %>" id="img" alt="">
+                <input type="file" id="flImage" name="attfoto" accept="image/*">
+            </div>
+            <div class="role">
+                <p>Name</p>
+                <input type="text" name="attname" id="attname" value="<%= students.Name %>">
+            </div>
+            <div class="role">
+                <p>Age</p>
+                <input type="text" name="attage" id="attage" value="<%= students.Age %>">
+            </div>
+            <div class="role">
+                <p>Sex</p>
+                <input type="text" name="attsex" id="attsex" value="<%= students.Sex %>">
+            </div>
+            <div class="role">
+                <p>Classroom</p>
+                <select name="attclassroom" id="attclassroom">
+                    <% for (let i=0; i < rooms.length; i++) { %>
+                        <option value='<%= rooms[i].IDClassroom %>' <%=students.IDClassroom==rooms[i].IDClassroom
+                            ? 'selected' : '' %>
+                            >
+                            <%= rooms[i].Name %>
+                        </option>
+                        <% } %>
+                </select>
+            </div>
+            <input type="submit" value="Update" class="submit-btn">
+        </form>
+    </div>
+    <script src="/editphoto.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>
